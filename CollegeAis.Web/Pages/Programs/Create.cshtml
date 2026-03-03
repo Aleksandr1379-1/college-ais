@@ -1,0 +1,36 @@
+@page
+@model CollegeAis.Web.Pages.Programs.CreateModel
+
+<h1>Добавить специальность</h1>
+
+<div asp-validation-summary="All" style="color:red"></div>
+
+<form method="post">
+    <div>
+        <label>Код *</label><br />
+        <input asp-for="Program.Code" />
+        <span asp-validation-for="Program.Code"></span>
+    </div>
+
+    <div>
+        <label>Название *</label><br />
+        <input asp-for="Program.Name" style="width: 500px;" />
+        <span asp-validation-for="Program.Name"></span>
+    </div>
+
+    <div>
+        <label>Уровень</label><br />
+        <input asp-for="Program.EducationLevel" />
+    </div>
+
+    <div>
+        <label>
+            <input asp-for="Program.IsActive" />
+            Активна
+        </label>
+    </div>
+
+    <br />
+    <button type="submit">Сохранить</button>
+    <a asp-page="Index">Назад</a>
+</form>

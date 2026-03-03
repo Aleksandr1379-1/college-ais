@@ -1,0 +1,54 @@
+@page
+@model CollegeAis.Web.Pages.Applicants.CreateModel
+
+<h1>Добавить абитуриента</h1>
+
+<div asp-validation-summary="All" style="color:red"></div>
+
+<form method="post">
+    <div>
+        <label>Фамилия *</label><br />
+        <input asp-for="Applicant.LastName" />
+        <span asp-validation-for="Applicant.LastName"></span>
+    </div>
+
+    <div>
+        <label>Имя *</label><br />
+        <input asp-for="Applicant.FirstName" />
+        <span asp-validation-for="Applicant.FirstName"></span>
+    </div>
+    <div>
+        <label>СНИЛС</label><br />
+    <input asp-for="Applicant.SNILS" />
+    </div>
+    <div>
+        <label>Отчество</label><br />
+        <input asp-for="Applicant.MiddleName" />
+    </div>
+
+    <div>
+        <label>Дата рождения *</label><br />
+        <input asp-for="Applicant.BirthDate" type="date" />
+    </div>
+
+    <div>
+        <label>Пол *</label><br />
+        <select asp-for="Applicant.Gender">
+            <option value="М">М</option>
+            <option value="Ж">Ж</option>
+        </select>
+    </div>
+
+    <div>
+        <label>Телефон</label><br />
+        <input asp-for="Applicant.Phone" />
+    </div>
+
+    <div>
+        <label>Email</label><br />
+        <input asp-for="Applicant.Email" />
+    </div>
+
+    <br />
+    <button type="submit">Сохранить</button>
+</form>

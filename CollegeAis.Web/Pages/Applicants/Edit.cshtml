@@ -1,0 +1,67 @@
+@page "{id:guid}"
+@model CollegeAis.Web.Pages.Applicants.EditModel
+
+<h1>Редактировать абитуриента</h1>
+
+<div asp-validation-summary="All" style="color:red"></div>
+
+<form method="post">
+    <input type="hidden" asp-for="Applicant.Id" />
+
+    <div>
+        <label>Фамилия *</label><br />
+        <input asp-for="Applicant.LastName" />
+        <span asp-validation-for="Applicant.LastName"></span>
+    </div>
+
+    <div>
+        <label>Имя *</label><br />
+        <input asp-for="Applicant.FirstName" />
+        <span asp-validation-for="Applicant.FirstName"></span>
+    </div>
+
+    <div>
+        <label>СНИЛС *</label><br />
+        <input asp-for="Applicant.SNILS" />
+        <span asp-validation-for="Applicant.SNILS"></span>
+    </div>
+
+    <div>
+        <label>Отчество</label><br />
+        <input asp-for="Applicant.MiddleName" />
+    </div>
+
+    <div>
+        <label>Дата рождения *</label><br />
+        <input asp-for="Applicant.BirthDate" type="date" />
+        <span asp-validation-for="Applicant.BirthDate"></span>
+    </div>
+
+    <div>
+        <label>Пол *</label><br />
+        <select asp-for="Applicant.Gender">
+            <option value="М">М</option>
+            <option value="Ж">Ж</option>
+        </select>
+        <span asp-validation-for="Applicant.Gender"></span>
+    </div>
+
+    <div>
+        <label>Телефон</label><br />
+        <input asp-for="Applicant.Phone" />
+    </div>
+
+    <div>
+        <label>Email</label><br />
+        <input asp-for="Applicant.Email" />
+    </div>
+
+    <div>
+        <label>Адрес</label><br />
+        <input asp-for="Applicant.Address" style="width: 500px;" />
+    </div>
+
+    <br />
+    <button type="submit">Сохранить</button>
+    <a asp-page="Index">Назад</a>
+</form>

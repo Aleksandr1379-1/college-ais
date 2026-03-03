@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="CollegeAis.Data/CollegeAis.Data.csproj" />
+  <Project Path="CollegeAis.Web/CollegeAis.Web.csproj" />
+</Solution>
