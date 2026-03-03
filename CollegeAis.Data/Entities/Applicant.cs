@@ -48,6 +48,13 @@ public class Applicant
     [MaxLength(400, ErrorMessage = "Поле «{0}» не должно превышать {1} символов.")]
     public string? Address { get; set; }
 
+    public ApplicantPassport? Passport { get; set; }
+    public ApplicantAddress? AddressInfo { get; set; }
+    public ApplicantEducationDocument? EducationDocument { get; set; }
+    public ApplicantParentContact? ParentContact { get; set; }
+
+    public List<ApplicantApplication> Applications { get; set; } = new();
+    
     [Display(Name = "Статус")]
     public ApplicantStatus Status { get; set; } = ApplicantStatus.Draft;
 
