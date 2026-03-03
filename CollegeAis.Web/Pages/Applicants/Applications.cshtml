@@ -1,0 +1,86 @@
+@page
+@model CollegeAis.Web.Pages.Applicants.ApplicationsModel
+@using CollegeAis.Data.Entities
+
+<div class="py-4">
+    <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
+        <div>
+            <h1 class="h4 fw-bold mb-1">Заявления (приоритеты)</h1>
+            <div class="text-muted">
+                @Model.Applicant.LastName @Model.Applicant.FirstName @Model.Applicant.MiddleName
+            </div>
+        </div>
+
+        <a class="btn btn-outline-secondary" asp-page="Card" asp-route-id="@Model.Applicant.Id">← В карточку</a>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+            @if (!ViewContext.ModelState.IsValid)
+            {
+                <div asp-validation-summary="All" class="alert alert-danger mb-3"></div>
+            }
+
+            <form method="post">
+                <input type="hidden" asp-for="ApplicantId" />
+
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr class="text-muted">
+                                <th style="width:120px;">Приоритет</th>
+                                <th>Специальность</th>
+                                <th style="width:180px;">Форма</th>
+                                <th style="width:180px;">Основа</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (var i = 0; i < 3; i++)
+                            {
+                                <tr>
+                                    <td class="fw-semibold">@(i + 1)</td>
+
+                                    <td>
+                                        <select class="form-select"
+                                                asp-for="Rows[i].ProgramId"
+                                                asp-items="Model.ProgramOptions">
+                                            <option value="">— не выбрано —</option>
+                                        </select>
+                                        <span class="text-danger small" asp-validation-for="Rows[i].ProgramId"></span>
+                                    </td>
+
+                                    <td>
+                                        <select class="form-select"
+                                                asp-for="Rows[i].StudyForm"
+                                                asp-items="Html.GetEnumSelectList<StudyForm>()"></select>
+                                    </td>
+
+                                    <td>
+                                        <select class="form-select"
+                                                asp-for="Rows[i].FundingBasis"
+                                                asp-items="Html.GetEnumSelectList<FundingBasis>()"></select>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="text-muted small">
+                    Заполни 1–3 приоритета. Повторы специальностей не допускаются.
+                </div>
+
+                <hr class="my-4" />
+
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary" type="submit">Сохранить</button>
+                    <a class="btn btn-outline-secondary" asp-page="Card" asp-route-id="@Model.ApplicantId">Отмена</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

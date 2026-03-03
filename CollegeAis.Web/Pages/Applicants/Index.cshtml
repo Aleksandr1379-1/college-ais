@@ -43,7 +43,11 @@
                             <tr>
                                 <td>
                                     <div class="fw-semibold">
-                                        @item.LastName @item.FirstName @item.MiddleName
+                                        <a class="text-decoration-none"
+                                            asp-page="Card"
+                                            asp-route-id="@item.Id">
+                                                @item.LastName @item.FirstName @item.MiddleName
+                                        </a>
                                     </div>
                                     <div class="text-muted small">
                                         ID: @item.Id

@@ -1,0 +1,89 @@
+@page
+@model CollegeAis.Web.Pages.Applicants.EducationModel
+@using CollegeAis.Data.Entities
+
+<div class="py-4">
+    <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
+        <div>
+            <h1 class="h4 fw-bold mb-1">Документ об образовании</h1>
+            <div class="text-muted">
+                @Model.Applicant.LastName @Model.Applicant.FirstName @Model.Applicant.MiddleName
+            </div>
+        </div>
+
+        <a class="btn btn-outline-secondary" asp-page="Card" asp-route-id="@Model.Applicant.Id">← В карточку</a>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+            @if (!ViewContext.ModelState.IsValid)
+            {
+                <div asp-validation-summary="All" class="alert alert-danger mb-3"></div>
+            }
+
+            <form method="post">
+                <input type="hidden" asp-for="ApplicantId" />
+
+                <div class="row g-3">
+                    <div class="col-12 col-lg-6">
+                        <label class="form-label">Тип документа</label>
+                        <select class="form-select" asp-for="Edu.DocType"
+                                asp-items="Html.GetEnumSelectList<EducationDocType>()"></select>
+                    </div>
+
+                    <div class="col-12 col-lg-6">
+                        <label class="form-label">Вид документа</label>
+                        <select class="form-select" asp-for="Edu.Kind"
+                                asp-items="Html.GetEnumSelectList<DocumentKind>()"></select>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <label class="form-label">Окончено классов</label>
+                        <select class="form-select" asp-for="Edu.FinishedClasses">
+                            <option value="">—</option>
+                            <option value="9">9</option>
+                            <option value="11">11</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <label class="form-label">Серия</label>
+                        <input class="form-control" asp-for="Edu.Series" />
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <label class="form-label">Номер</label>
+                        <input class="form-control" asp-for="Edu.Number" />
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Дата выдачи</label>
+                        <input class="form-control" asp-for="Edu.IssueDate" type="date" />
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Средний балл</label>
+                        <input class="form-control" asp-for="Edu.AverageScore" placeholder="например: 4.35" />
+                        <span class="text-danger small" asp-validation-for="Edu.AverageScore"></span>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Кем выдан</label>
+                        <input class="form-control" asp-for="Edu.IssuedBy" />
+                    </div>
+                </div>
+
+                <hr class="my-4" />
+
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary" type="submit">Сохранить</button>
+                    <a class="btn btn-outline-secondary" asp-page="Card" asp-route-id="@Model.ApplicantId">Отмена</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -35,6 +35,6 @@ public class CreateModel : PageModel
         _context.Applicants.Add(Applicant);
         await _context.SaveChangesAsync();
 
-        return RedirectToPage("Index");
+        return RedirectToPage("Card", new { id = Applicant.Id });
     }
 }

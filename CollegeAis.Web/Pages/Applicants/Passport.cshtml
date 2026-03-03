@@ -1,0 +1,89 @@
+@page
+@model CollegeAis.Web.Pages.Applicants.PassportModel
+
+<div class="py-4">
+    <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
+        <div>
+            <h1 class="h4 fw-bold mb-1">Паспортные данные</h1>
+            <div class="text-muted">
+                @Model.Applicant.LastName @Model.Applicant.FirstName @Model.Applicant.MiddleName
+            </div>
+        </div>
+
+        <a class="btn btn-outline-secondary" asp-page="Card" asp-route-id="@Model.Applicant.Id">← В карточку</a>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+            @if (!ViewContext.ModelState.IsValid)
+            {
+                <div asp-validation-summary="All" class="alert alert-danger mb-3"></div>
+            }
+
+            <form method="post">
+                <input type="hidden" asp-for="ApplicantId" />
+
+                <div class="row g-3">
+                    <div class="col-12 col-md-3">
+                        <label class="form-label">Серия</label>
+                        <input class="form-control" asp-for="Passport.Series" />
+                        <span class="text-danger small" asp-validation-for="Passport.Series"></span>
+                    </div>
+
+                    <div class="col-12 col-md-3">
+                        <label class="form-label">Номер</label>
+                        <input class="form-control" asp-for="Passport.Number" />
+                        <span class="text-danger small" asp-validation-for="Passport.Number"></span>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Код подразделения</label>
+                        <input class="form-control" asp-for="Passport.DivisionCode" />
+                        <span class="text-danger small" asp-validation-for="Passport.DivisionCode"></span>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Кем выдан</label>
+                        <input class="form-control" asp-for="Passport.IssuedBy" />
+                        <span class="text-danger small" asp-validation-for="Passport.IssuedBy"></span>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <label class="form-label">Дата выдачи</label>
+                        <input class="form-control" asp-for="Passport.IssueDate" type="date" />
+                        <span class="text-danger small" asp-validation-for="Passport.IssueDate"></span>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <label class="form-label">Гражданство</label>
+                        <input class="form-control" asp-for="Passport.Citizenship" />
+                        <span class="text-danger small" asp-validation-for="Passport.Citizenship"></span>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <label class="form-label">ИНН</label>
+                        <input class="form-control" asp-for="Passport.Inn" />
+                        <span class="text-danger small" asp-validation-for="Passport.Inn"></span>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Место рождения</label>
+                        <input class="form-control" asp-for="Passport.PlaceOfBirth" />
+                        <span class="text-danger small" asp-validation-for="Passport.PlaceOfBirth"></span>
+                    </div>
+                </div>
+
+                <hr class="my-4" />
+
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary" type="submit">Сохранить</button>
+                    <a class="btn btn-outline-secondary" asp-page="Card" asp-route-id="@Model.ApplicantId">Отмена</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

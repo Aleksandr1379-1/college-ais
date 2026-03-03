@@ -1,0 +1,55 @@
+@page
+@model CollegeAis.Web.Pages.Applicants.CardModel
+
+<div class="py-4">
+    <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
+        <div>
+            <h1 class="h3 fw-bold mb-1">Карточка абитуриента</h1>
+            <div class="text-muted">
+                @Model.Applicant.LastName @Model.Applicant.FirstName @Model.Applicant.MiddleName
+            </div>
+        </div>
+
+        <a class="btn btn-outline-secondary" asp-page="Index">← К списку</a>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-12 col-lg-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="fw-semibold mb-2">Разделы</div>
+
+                    <div class="d-grid gap-2">
+                        <a class="btn btn-outline-primary" asp-page="Passport" asp-route-id="@Model.Applicant.Id">Паспорт</a>
+                        <a class="btn btn-outline-primary" asp-page="Address" asp-route-id="@Model.Applicant.Id">Адреса / общежитие</a>
+                        <a class="btn btn-outline-primary" asp-page="Education" asp-route-id="@Model.Applicant.Id">Образование</a>
+                        <a class="btn btn-outline-primary" asp-page="Parent" asp-route-id="@Model.Applicant.Id">Родитель / представитель</a>
+                        <a class="btn btn-outline-primary" asp-page="Applications" asp-route-id="@Model.Applicant.Id">Заявления (приоритеты)</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="fw-semibold mb-3">Кратко</div>
+
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4 text-muted">Дата рождения</dt>
+                        <dd class="col-sm-8">@Model.Applicant.BirthDate.ToString("dd.MM.yyyy")</dd>
+
+                        <dt class="col-sm-4 text-muted">Телефон</dt>
+                        <dd class="col-sm-8">@(!string.IsNullOrWhiteSpace(Model.Applicant.Phone) ? Model.Applicant.Phone : "—")</dd>
+
+                        <dt class="col-sm-4 text-muted">Email</dt>
+                        <dd class="col-sm-8">@(!string.IsNullOrWhiteSpace(Model.Applicant.Email) ? Model.Applicant.Email : "—")</dd>
+
+                        <dt class="col-sm-4 text-muted">Статус</dt>
+                        <dd class="col-sm-8">@Model.Applicant.Status</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

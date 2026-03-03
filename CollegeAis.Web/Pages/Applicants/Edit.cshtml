@@ -6,6 +6,9 @@
 <div asp-validation-summary="All" style="color:red"></div>
 
 <form method="post">
+    <a class="btn btn-outline-primary" asp-page="Card" asp-route-id="@Model.Applicant.Id">
+    В карточку
+</a>
     <input type="hidden" asp-for="Applicant.Id" />
 
     <div>

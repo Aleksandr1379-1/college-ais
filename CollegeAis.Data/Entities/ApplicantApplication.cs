@@ -27,7 +27,7 @@ public class ApplicantApplication
     public ProgramEntity Program { get; set; } = null!;
 
     [Range(1, 3)]
-    public int Priority { get; set; } = 1;
+    public int Priority { get; set; }
 
     public StudyForm StudyForm { get; set; } = StudyForm.FullTime;
     public FundingBasis FundingBasis { get; set; } = FundingBasis.Budget;

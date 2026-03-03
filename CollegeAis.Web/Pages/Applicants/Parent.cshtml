@@ -1,0 +1,59 @@
+@page
+@model CollegeAis.Web.Pages.Applicants.ParentModel
+
+<div class="py-4">
+    <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
+        <div>
+            <h1 class="h4 fw-bold mb-1">Родитель / представитель</h1>
+            <div class="text-muted">
+                @Model.Applicant.LastName @Model.Applicant.FirstName @Model.Applicant.MiddleName
+            </div>
+        </div>
+
+        <a class="btn btn-outline-secondary" asp-page="Card" asp-route-id="@Model.Applicant.Id">← В карточку</a>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+            @if (!ViewContext.ModelState.IsValid)
+            {
+                <div asp-validation-summary="All" class="alert alert-danger mb-3"></div>
+            }
+
+            <form method="post">
+                <input type="hidden" asp-for="ApplicantId" />
+
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label">ФИО</label>
+                        <input class="form-control" asp-for="Parent.FullName" />
+                        <span class="text-danger small" asp-validation-for="Parent.FullName"></span>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Телефон</label>
+                        <input class="form-control" asp-for="Parent.Phone" />
+                        <span class="text-danger small" asp-validation-for="Parent.Phone"></span>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Статус (мать/отец/опекун)</label>
+                        <input class="form-control" asp-for="Parent.Status" />
+                        <span class="text-danger small" asp-validation-for="Parent.Status"></span>
+                    </div>
+                </div>
+
+                <hr class="my-4" />
+
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary" type="submit">Сохранить</button>
+                    <a class="btn btn-outline-secondary" asp-page="Card" asp-route-id="@Model.ApplicantId">Отмена</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

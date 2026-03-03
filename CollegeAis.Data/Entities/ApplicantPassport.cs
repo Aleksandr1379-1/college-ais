@@ -8,13 +8,14 @@ public class ApplicantPassport
 
     [Required]
     public Guid ApplicantId { get; set; }
+
     public Applicant Applicant { get; set; } = null!;
 
-    [Display(Name = "Серия паспорта")]
+    [Display(Name = "Серия")]
     [MaxLength(10)]
     public string? Series { get; set; }
 
-    [Display(Name = "Номер паспорта")]
+    [Display(Name = "Номер")]
     [MaxLength(10)]
     public string? Number { get; set; }
 
@@ -29,10 +30,6 @@ public class ApplicantPassport
     [MaxLength(20)]
     public string? DivisionCode { get; set; }
 
-    [Display(Name = "Место рождения")]
-    [MaxLength(250)]
-    public string? PlaceOfBirth { get; set; }
-
     [Display(Name = "Гражданство")]
     [MaxLength(100)]
     public string? Citizenship { get; set; }
@@ -40,4 +37,8 @@ public class ApplicantPassport
     [Display(Name = "ИНН")]
     [MaxLength(20)]
     public string? Inn { get; set; }
+
+    [Display(Name = "Место рождения")]
+    [MaxLength(250)]
+    public string? PlaceOfBirth { get; set; }
 }
