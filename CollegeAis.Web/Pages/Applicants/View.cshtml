@@ -1,0 +1,173 @@
+@page
+@model CollegeAis.Web.Pages.Applicants.ViewModel
+@using CollegeAis.Data.Entities
+
+<div class="py-4">
+    <div class="d-flex justify-content-between align-items-start gap-2 mb-4">
+        <div>
+            <h1 class="h3 fw-bold mb-1">
+                @Model.Applicant.LastName @Model.Applicant.FirstName @Model.Applicant.MiddleName
+            </h1>
+            <div class="text-muted">
+                Полная информация об абитуриенте
+            </div>
+        </div>
+
+        <a class="btn btn-outline-secondary"
+           asp-page="Card"
+           asp-route-id="@Model.Applicant.Id">
+            ← В карточку
+        </a>
+    </div>
+
+    <div class="row g-4">
+<!-- Специальности -->
+<div class="col-12">
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <h5 class="fw-semibold mb-3">Специальности (приоритеты)</h5>
+
+            @if (Model.Applications is null || Model.Applications.Count == 0)
+            {
+                <div class="text-muted">Не заполнено</div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-sm align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th style="width:120px;">Приоритет</th>
+                                <th>Специальность</th>
+                                <th style="width:180px;">Форма</th>
+                                <th style="width:180px;">Основа</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var a in Model.Applications)
+                            {
+                                <tr>
+                                    <td class="fw-semibold">@a.Priority</td>
+                                    <td>
+                                        @if (a.Program is null)
+                                        {
+                                            <span class="text-muted">—</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@a.Program.Code — @a.Program.Name</span>
+                                        }
+                                    </td>
+                                    <td>@a.StudyForm</td>
+                                    <td>@a.FundingBasis</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+        <!-- Основные данные -->
+        <div class="col-12 col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="fw-semibold mb-3">Основные данные</h5>
+
+                    <p><strong>Дата рождения:</strong> @Model.Applicant.BirthDate.ToString("dd.MM.yyyy")</p>
+                    <p><strong>Пол:</strong> @Model.Applicant.Gender</p>
+                    <p><strong>Телефон:</strong> @Model.Applicant.Phone</p>
+                    <p><strong>Email:</strong> @Model.Applicant.Email</p>
+                    <p><strong>Статус:</strong> @Model.Applicant.Status</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Паспорт -->
+        <div class="col-12 col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="fw-semibold mb-3">Паспорт</h5>
+
+                    @if (Model.Passport is null)
+                    {
+                        <div class="text-muted">Не заполнено</div>
+                    }
+                    else
+                    {
+                        <p><strong>Серия/номер:</strong> @Model.Passport.Series @Model.Passport.Number</p>
+                        <p><strong>Кем выдан:</strong> @Model.Passport.IssuedBy</p>
+                        <p><strong>Дата выдачи:</strong> @Model.Passport.IssueDate?.ToString("dd.MM.yyyy")</p>
+                        <p><strong>Код подразделения:</strong> @Model.Passport.DivisionCode</p>
+                        <p><strong>Гражданство:</strong> @Model.Passport.Citizenship</p>
+                        <p><strong>ИНН:</strong> @Model.Passport.Inn</p>
+                        <p><strong>Место рождения:</strong> @Model.Passport.PlaceOfBirth</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Адрес -->
+        <div class="col-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="fw-semibold mb-3">Адреса</h5>
+
+                    @if (Model.Address is null)
+                    {
+                        <div class="text-muted">Не заполнено</div>
+                    }
+                    else
+                    {
+                        <p><strong>Прописка:</strong> @Model.Address.RegistrationAddress</p>
+                        <p><strong>Фактический:</strong> @Model.Address.ActualAddress</p>
+                        <p><strong>Общежитие:</strong> @(Model.Address.NeedsDormitory ? "Да" : "Нет")</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Образование -->
+        <div class="col-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="fw-semibold mb-3">Образование</h5>
+
+                    @if (Model.Education is null)
+                    {
+                        <div class="text-muted">Не заполнено</div>
+                    }
+                    else
+                    {
+                        <p><strong>Тип документа:</strong> @Model.Education.DocType</p>
+                        <p><strong>Серия/номер:</strong> @Model.Education.Series @Model.Education.Number</p>
+                        <p><strong>Средний балл:</strong> @Model.Education.AverageScore</p>
+                        <p><strong>Кем выдан:</strong> @Model.Education.IssuedBy</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Родитель -->
+        <div class="col-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="fw-semibold mb-3">Родитель / представитель</h5>
+
+                    @if (Model.Parent is null)
+                    {
+                        <div class="text-muted">Не заполнено</div>
+                    }
+                    else
+                    {
+                        <p><strong>ФИО:</strong> @Model.Parent.FullName</p>
+                        <p><strong>Телефон:</strong> @Model.Parent.Phone</p>
+                        <p><strong>Статус:</strong> @Model.Parent.Status</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

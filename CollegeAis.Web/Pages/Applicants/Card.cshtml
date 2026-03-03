@@ -1,5 +1,6 @@
 @page
 @model CollegeAis.Web.Pages.Applicants.CardModel
+@using CollegeAis.Web.Helpers
 
 <div class="py-4">
     <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
@@ -11,6 +12,11 @@
         </div>
 
         <a class="btn btn-outline-secondary" asp-page="Index">← К списку</a>
+        <a class="btn btn-primary"
+        asp-page="View"
+            asp-route-id="@Model.Applicant.Id">
+            📄 Полная информация
+        </a>
     </div>
 
     <div class="row g-3">
@@ -34,6 +40,24 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
                     <div class="fw-semibold mb-3">Кратко</div>
+                    <form method="post" asp-page-handler="ChangeStatus">
+    <input type="hidden" name="id" value="@Model.Applicant.Id" />
+
+    <div class="d-flex gap-2 align-items-center mt-3">
+        <select name="status" class="form-select w-auto">
+            @foreach (var s in Enum.GetValues(typeof(CollegeAis.Data.Enums.ApplicantStatus)))
+            {
+<option value="@s" selected="@(Model.Applicant.Status.ToString() == s.ToString())">
+    @(((CollegeAis.Data.Enums.ApplicantStatus)s).ToRu())
+</option>
+            }
+        </select>
+
+        <button class="btn btn-outline-primary btn-sm" type="submit">
+            Изменить статус
+        </button>
+    </div>
+</form>
 
                     <dl class="row mb-0">
                         <dt class="col-sm-4 text-muted">Дата рождения</dt>
@@ -46,7 +70,7 @@
                         <dd class="col-sm-8">@(!string.IsNullOrWhiteSpace(Model.Applicant.Email) ? Model.Applicant.Email : "—")</dd>
 
                         <dt class="col-sm-4 text-muted">Статус</dt>
-                        <dd class="col-sm-8">@Model.Applicant.Status</dd>
+                        <dd class="col-sm-8">@Model.Applicant.Status.ToRu()</dd>
                     </dl>
                 </div>
             </div>

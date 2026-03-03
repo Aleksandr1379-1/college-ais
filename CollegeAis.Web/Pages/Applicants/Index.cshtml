@@ -1,5 +1,6 @@
 @page
 @model CollegeAis.Web.Pages.Applicants.IndexModel
+@using CollegeAis.Web.Helpers
 
 <div class="py-4">
     <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
@@ -29,7 +30,9 @@
                         @foreach (var s in Enum.GetValues(typeof(CollegeAis.Data.Enums.ApplicantStatus)))
                         {
                             var selected = Model.Status?.ToString() == s.ToString();
-                            <option value="@s" selected="@selected">@s</option>
+                            <option value="@s" selected="@selected">
+                                @(((CollegeAis.Data.Enums.ApplicantStatus)s).ToRu())
+                            </option>
                         }
                     </select>
                 </div>
@@ -102,7 +105,7 @@
 
                             <td class="text-nowrap">
                                 <span class="badge rounded-pill @GetStatusBadge(item.Status)">
-                                    @item.Status
+                                    @item.Status.ToRu()
                                 </span>
                             </td>
 
@@ -129,15 +132,19 @@
     </div>
 </div>
 
-@functions {
-    // Подбор стиля бейджа под статус
-    private string GetStatusBadge(CollegeAis.Data.Enums.ApplicantStatus status)
-    {
-        return status switch
+    @functions {
+        private string GetStatusBadge(CollegeAis.Data.Enums.ApplicantStatus status)
         {
+            return status switch
+            {
             CollegeAis.Data.Enums.ApplicantStatus.Draft => "text-bg-secondary",
-            // если есть другие статусы — добавишь сюда
-            _ => "text-bg-primary"
-        };
+            CollegeAis.Data.Enums.ApplicantStatus.Submitted => "text-bg-primary",
+            CollegeAis.Data.Enums.ApplicantStatus.InRating => "text-bg-info",
+            CollegeAis.Data.Enums.ApplicantStatus.Enrolled => "text-bg-success",
+            CollegeAis.Data.Enums.ApplicantStatus.Withdrawn => "text-bg-danger",
+            CollegeAis.Data.Enums.ApplicantStatus.ExcludedFromRating => "text-bg-warning",
+            _ => "text-bg-dark"
+            };
+        }
     }
 }

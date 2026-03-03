@@ -1,36 +1,107 @@
 @page
 @model CollegeAis.Web.Pages.Programs.CreateModel
 
-<h1>Добавить специальность</h1>
+<div class="py-4">
+    <div class="d-flex justify-content-between align-items-start gap-2 mb-4">
+        <div>
+            <h1 class="h4 fw-bold mb-1">Добавить специальность</h1>
+            <div class="text-muted">Заполни основные параметры набора</div>
+        </div>
 
-<div asp-validation-summary="All" style="color:red"></div>
-
-<form method="post">
-    <div>
-        <label>Код *</label><br />
-        <input asp-for="Program.Code" />
-        <span asp-validation-for="Program.Code"></span>
+        <a class="btn btn-outline-secondary" asp-page="Index">← Назад</a>
     </div>
 
-    <div>
-        <label>Название *</label><br />
-        <input asp-for="Program.Name" style="width: 500px;" />
-        <span asp-validation-for="Program.Name"></span>
-    </div>
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
 
-    <div>
-        <label>Уровень</label><br />
-        <input asp-for="Program.EducationLevel" />
-    </div>
+            @* Ошибки модели *@
+            @if (!ViewData.ModelState.IsValid)
+{
+    <div asp-validation-summary="All" class="alert alert-danger mb-3"></div>
+}
 
-    <div>
-        <label>
-            <input asp-for="Program.IsActive" />
-            Активна
-        </label>
-    </div>
+            <form method="post">
+                <div class="row g-3">
 
-    <br />
-    <button type="submit">Сохранить</button>
-    <a asp-page="Index">Назад</a>
-</form>
+                    <!-- Код -->
+                    <div class="col-12 col-md-3">
+                        <label class="form-label">Код *</label>
+                        <input class="form-control" asp-for="Program.Code" placeholder="например: 09.02.07" />
+                        <span class="text-danger small" asp-validation-for="Program.Code"></span>
+                    </div>
+
+                    <!-- Название -->
+                    <div class="col-12 col-md-9">
+                        <label class="form-label">Специальность *</label>
+                        <input class="form-control" asp-for="Program.Name"
+                               placeholder="например: Информационные системы и программирование" />
+                        <span class="text-danger small" asp-validation-for="Program.Name"></span>
+                    </div>
+
+                    <!-- Квалификация -->
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Квалификация *</label>
+                        <input class="form-control" asp-for="Program.Qualification"
+                               placeholder="например: Специалист по информационным системам" />
+                        <span class="text-danger small" asp-validation-for="Program.Qualification"></span>
+                    </div>
+
+                    <!-- Базовое образование -->
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Базовое образование *</label>
+                        <select class="form-select" asp-for="Program.BaseEducation">
+                            <option value="9 классов">9 классов</option>
+                            <option value="11 классов">11 классов</option>
+                        </select>
+                        <span class="text-danger small" asp-validation-for="Program.BaseEducation"></span>
+                    </div>
+
+                    <!-- Срок обучения -->
+                    <div class="col-12 col-md-4">
+                        <label class="form-label">Срок обучения *</label>
+                        <input class="form-control" asp-for="Program.StudyDuration"
+                               placeholder="например: 3 г. 10 мес." />
+                        <span class="text-danger small" asp-validation-for="Program.StudyDuration"></span>
+                    </div>
+
+                    <!-- Бюджет -->
+                    <div class="col-12 col-md-4">
+                        <label class="form-label">Бюджетных мест</label>
+                        <input class="form-control" asp-for="Program.BudgetPlaces" type="number" min="0" />
+                        <span class="text-danger small" asp-validation-for="Program.BudgetPlaces"></span>
+                    </div>
+
+                    <!-- Коммерция -->
+                    <div class="col-12 col-md-4">
+                        <label class="form-label">Коммерческих мест</label>
+                        <input class="form-control" asp-for="Program.PaidPlaces" type="number" min="0" />
+                        <span class="text-danger small" asp-validation-for="Program.PaidPlaces"></span>
+                    </div>
+
+                    <!-- Активна -->
+                    <div class="col-12">
+                        <div class="form-check mt-2">
+                            <input class="form-check-input" asp-for="Program.IsActive" />
+                            <label class="form-check-label" asp-for="Program.IsActive">
+                                Активна (показывать в выборе приоритетов)
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <hr class="my-4" />
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <a class="btn btn-outline-secondary" asp-page="Index">Отмена</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

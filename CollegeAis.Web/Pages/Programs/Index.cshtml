@@ -1,30 +1,38 @@
 @page
 @model CollegeAis.Web.Pages.Programs.IndexModel
 
-<h1>Специальности</h1>
+<h1 class="display-6 fw-bold mb-2">Специальности</h1>
 
 <p>
     <a asp-page="Create">Добавить специальность</a>
 </p>
 
-<table border="1" cellpadding="5">
+<table class="table table-bordered align-middle">
     <thead>
         <tr>
             <th>Код</th>
-            <th>Название</th>
-            <th>Уровень</th>
-            <th>Активна</th>
+            <th>Специальность</th>
+            <th>Квалификация</th>
+            <th>Базовое образование</th>
+            <th>Срок обучения</th>
+            <th class="text-nowrap">Бюджетных мест</th>
+            <th class="text-end">Действия</th>
         </tr>
     </thead>
     <tbody>
-    @foreach (var p in Model.Programs)
-    {
-        <tr>
-            <td>@p.Code</td>
-            <td>@p.Name</td>
-            <td>@p.EducationLevel</td>
-            <td>@(p.IsActive ? "Да" : "Нет")</td>
-        </tr>
-    }
+        @foreach (var item in Model.Programs)
+        {
+            <tr>
+                <td class="text-nowrap">@item.Code</td>
+                <td>@item.Name</td>
+                <td>@item.Qualification</td>
+                <td class="text-nowrap">@item.BaseEducation</td>
+                <td class="text-nowrap">@item.StudyDuration</td>
+                <td class="text-nowrap">@item.BudgetPlaces</td>
+                <td class="text-end">
+                    <a class="btn btn-sm btn-outline-secondary" asp-page="Edit" asp-route-id="@item.Id">Редактировать</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
