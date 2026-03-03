@@ -1,12 +1,64 @@
 ﻿@page
 @model IndexModel
-@{
-    ViewData["Title"] = "Home page";
-    <p><a href="/Applicants">Перейти к абитуриентам</a></p>
-}
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    
+<div class="py-4">
+    <div class="mb-4">
+        <h1 class="display-6 fw-bold mb-1">АИС колледжа</h1>
+        <p class="text-muted mb-0">Главное меню модулей системы</p>
+    </div>
+
+    <div class="row g-4">
+        <!-- Модуль: Приёмная комиссия -->
+        <div class="col-12 col-lg-6">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-start justify-content-between">
+                        <div>
+                            <div class="text-uppercase text-muted small fw-semibold">Модуль</div>
+                            <h2 class="h4 fw-bold mb-2">Приёмная комиссия</h2>
+                            <p class="text-muted mb-4">
+                                Абитуриенты, специальности, документы и заявления на поступление.
+                            </p>
+                        </div>
+
+                        <!-- “иконка” без картинок: просто аккуратный бейдж -->
+                        <div class="rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center"
+                             style="width:48px;height:48px;font-size:20px;">
+                            ПК
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-2">
+                        <a class="btn btn-primary" asp-page="/Applicants/Index">
+                            Абитуриенты
+                        </a>
+                        <a class="btn btn-outline-primary" asp-page="/Programs/Index">
+                            Специальности
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-footer bg-white border-0 px-4 pb-4">
+                    <div class="d-flex justify-content-between text-muted small">
+                        <span>Статус: активен</span>
+                        <span>Версия: MVP</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Заглушка под будущие модули -->
+        <div class="col-12 col-lg-6">
+            <div class="card h-100 border-0 bg-light">
+                <div class="card-body p-4">
+                    <div class="text-uppercase text-muted small fw-semibold">Скоро</div>
+                    <h2 class="h4 fw-bold mb-2">Учебный процесс</h2>
+                    <p class="text-muted mb-4">
+                        Нагрузка, расписание, группы, успеваемость (добавим позже).
+                    </p>
+                    <button class="btn btn-secondary" disabled>В разработке</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
