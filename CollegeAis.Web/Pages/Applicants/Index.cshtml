@@ -2,7 +2,7 @@
 @model CollegeAis.Web.Pages.Applicants.IndexModel
 
 <div class="py-4">
-    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
         <div>
             <h1 class="display-6 fw-bold mb-1">Абитуриенты</h1>
             <div class="text-muted">Список абитуриентов приёмной комиссии</div>
@@ -13,79 +13,131 @@
         </a>
     </div>
 
-    <div class="card shadow-sm border-0">
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th>ФИО</th>
-                            <th class="text-nowrap">Дата рождения</th>
-                            <th>Телефон</th>
-                            <th>Статус</th>
-                            <th class="text-end" style="width: 140px;">Действия</th>
-                        </tr>
-                    </thead>
+    <div class="card border-0 shadow-sm mb-3">
+        <div class="card-body">
+            <form method="get" class="row g-2 align-items-end">
+                <div class="col-12 col-md-6 col-lg-7">
+                    <label class="form-label mb-1">Поиск</label>
+                    <input name="q" value="@Model.Q" class="form-control"
+                           placeholder="ФИО, телефон или email" />
+                </div>
 
-                    <tbody>
-                    @if (Model.Applicants == null || Model.Applicants.Count == 0)
-                    {
-                        <tr>
-                            <td colspan="5" class="text-center text-muted py-4">
-                                Пока нет записей. Нажми <b>“Добавить абитуриента”</b>.
-                            </td>
-                        </tr>
-                    }
-                    else
-                    {
-                        foreach (var item in Model.Applicants)
+                <div class="col-12 col-md-4 col-lg-3">
+                    <label class="form-label mb-1">Статус</label>
+                    <select class="form-select" name="status">
+                        <option value="">Все</option>
+                        @foreach (var s in Enum.GetValues(typeof(CollegeAis.Data.Enums.ApplicantStatus)))
                         {
-                            <tr>
-                                <td>
-                                    <div class="fw-semibold">
-                                        <a class="text-decoration-none"
-                                            asp-page="Card"
-                                            asp-route-id="@item.Id">
-                                                @item.LastName @item.FirstName @item.MiddleName
-                                        </a>
-                                    </div>
-                                    <div class="text-muted small">
-                                        ID: @item.Id
-                                    </div>
-                                </td>
+                            var selected = Model.Status?.ToString() == s.ToString();
+                            <option value="@s" selected="@selected">@s</option>
+                        }
+                    </select>
+                </div>
 
-                                <td class="text-nowrap">@item.BirthDate</td>
-                                <td>@(string.IsNullOrWhiteSpace(item.Phone) ? "—" : item.Phone)</td>
+                <div class="col-12 col-md-2 col-lg-2 d-grid">
+                    <button class="btn btn-outline-primary" type="submit">Применить</button>
+                </div>
+            </form>
 
-                                <td>
-                                    @{
-                                        var badge = item.Status.ToString() switch
-                                        {
-                                            "Draft" => "bg-secondary-subtle text-secondary",
-                                            "Submitted" => "bg-info-subtle text-info",
-                                            "Accepted" => "bg-success-subtle text-success",
-                                            "Rejected" => "bg-danger-subtle text-danger",
-                                            _ => "bg-light text-dark"
-                                        };
-                                    }
-                                    <span class="badge @badge">
-                                        @item.Status
-                                    </span>
-                                </td>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="text-muted small">
+                    Найдено: <span class="fw-semibold">@Model.Applicants.Count</span>
+                </div>
 
-                                <td class="text-end">
+                @if (!string.IsNullOrWhiteSpace(Model.Q) || Model.Status.HasValue)
+                {
+                    <a class="btn btn-sm btn-outline-secondary" asp-page="Index">Сбросить</a>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>ФИО</th>
+                        <th class="text-nowrap">Дата рождения</th>
+                        <th class="text-nowrap">Телефон</th>
+                        <th class="text-nowrap">Статус</th>
+                        <th class="text-end">Действия</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                @if (Model.Applicants.Count == 0)
+                {
+                    <tr>
+                        <td colspan="5" class="text-center text-muted py-5">
+                            Ничего не найдено
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var item in Model.Applicants)
+                    {
+                        <tr>
+                            <td>
+                                <div class="fw-semibold">
+                                    <a class="text-decoration-none"
+                                       asp-page="Card"
+                                       asp-route-id="@item.Id">
+                                        @item.LastName @item.FirstName @item.MiddleName
+                                    </a>
+                                </div>
+                                <div class="text-muted small">
+                                    Создан: @item.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
+                                </div>
+                            </td>
+
+                            <td class="text-nowrap">
+                                @item.BirthDate.ToString("dd.MM.yyyy")
+                            </td>
+
+                            <td class="text-nowrap">
+                                @(string.IsNullOrWhiteSpace(item.Phone) ? "—" : item.Phone)
+                            </td>
+
+                            <td class="text-nowrap">
+                                <span class="badge rounded-pill @GetStatusBadge(item.Status)">
+                                    @item.Status
+                                </span>
+                            </td>
+
+                            <td class="text-end">
+                                <div class="btn-group" role="group">
                                     <a class="btn btn-sm btn-outline-primary"
+                                       asp-page="Card"
+                                       asp-route-id="@item.Id">
+                                        Карточка
+                                    </a>
+                                    <a class="btn btn-sm btn-outline-secondary"
                                        asp-page="Edit"
                                        asp-route-id="@item.Id">
                                         Редактировать
                                     </a>
-                                </td>
-                            </tr>
-                        }
+                                </div>
+                            </td>
+                        </tr>
                     }
-                    </tbody>
-                </table>
-            </div>
+                }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
+
+@functions {
+    // Подбор стиля бейджа под статус
+    private string GetStatusBadge(CollegeAis.Data.Enums.ApplicantStatus status)
+    {
+        return status switch
+        {
+            CollegeAis.Data.Enums.ApplicantStatus.Draft => "text-bg-secondary",
+            // если есть другие статусы — добавишь сюда
+            _ => "text-bg-primary"
+        };
+    }
+}
