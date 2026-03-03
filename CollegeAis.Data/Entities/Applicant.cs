@@ -22,6 +22,9 @@ public class Applicant
     [Required]
     public DateOnly BirthDate { get; set; }
 
+    [MaxLength(50)]
+    public string? Snils { get; set; }
+
     [Required, MaxLength(1)]
     public string Gender { get; set; } = "М"; // "М"/"Ж"
 

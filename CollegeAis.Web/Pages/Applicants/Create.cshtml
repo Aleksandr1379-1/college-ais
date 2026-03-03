@@ -1,54 +1,96 @@
 @page
 @model CollegeAis.Web.Pages.Applicants.CreateModel
 
-<h1>Добавить абитуриента</h1>
+<div class="py-4">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <div>
+            <h1 class="display-6 fw-bold mb-1">Добавить абитуриента</h1>
+            <div class="text-muted">Заполни основные данные абитуриента</div>
+        </div>
 
-<div asp-validation-summary="All" style="color:red"></div>
-
-<form method="post">
-    <div>
-        <label>Фамилия *</label><br />
-        <input asp-for="Applicant.LastName" />
-        <span asp-validation-for="Applicant.LastName"></span>
+        <a class="btn btn-outline-secondary" asp-page="Index">← Назад к списку</a>
     </div>
 
-    <div>
-        <label>Имя *</label><br />
-        <input asp-for="Applicant.FirstName" />
-        <span asp-validation-for="Applicant.FirstName"></span>
-    </div>
-    <div>
-        <label>СНИЛС</label><br />
-    <input asp-for="Applicant.SNILS" />
-    </div>
-    <div>
-        <label>Отчество</label><br />
-        <input asp-for="Applicant.MiddleName" />
-    </div>
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+            @if (!ViewContext.ModelState.IsValid)
+{
+    <div asp-validation-summary="All" class="alert alert-danger mb-4" role="alert"></div>
+}
 
-    <div>
-        <label>Дата рождения *</label><br />
-        <input asp-for="Applicant.BirthDate" type="date" />
-    </div>
+            <form method="post">
+                <div class="row g-3">
+                    <!-- Фамилия -->
+                    <div class="col-12 col-md-4">
+                        <label class="form-label fw-semibold">Фамилия *</label>
+                        <input class="form-control" asp-for="Applicant.LastName" />
+                        <span class="text-danger small" asp-validation-for="Applicant.LastName"></span>
+                    </div>
 
-    <div>
-        <label>Пол *</label><br />
-        <select asp-for="Applicant.Gender">
-            <option value="М">М</option>
-            <option value="Ж">Ж</option>
-        </select>
-    </div>
+                    <!-- Имя -->
+                    <div class="col-12 col-md-4">
+                        <label class="form-label fw-semibold">Имя *</label>
+                        <input class="form-control" asp-for="Applicant.FirstName" />
+                        <span class="text-danger small" asp-validation-for="Applicant.FirstName"></span>
+                    </div>
 
-    <div>
-        <label>Телефон</label><br />
-        <input asp-for="Applicant.Phone" />
-    </div>
+                    <!-- Отчество -->
+                    <div class="col-12 col-md-4">
+                        <label class="form-label">Отчество</label>
+                        <input class="form-control" asp-for="Applicant.MiddleName" />
+                        <span class="text-danger small" asp-validation-for="Applicant.MiddleName"></span>
+                    </div>
 
-    <div>
-        <label>Email</label><br />
-        <input asp-for="Applicant.Email" />
-    </div>
+                    <!-- СНИЛС -->
+                    <div class="col-12 col-md-4">
+                        <label class="form-label">СНИЛС</label>
+                        <input class="form-control" asp-for="Applicant.Snils" placeholder="например: 123-456-789 00" />
+                        <span class="text-danger small" asp-validation-for="Applicant.Snils"></span>
+                    </div>
 
-    <br />
-    <button type="submit">Сохранить</button>
-</form>
+                    <!-- Дата рождения -->
+                    <div class="col-12 col-md-4">
+                        <label class="form-label fw-semibold">Дата рождения *</label>
+                        <input class="form-control" asp-for="Applicant.BirthDate" type="date" />
+                        <span class="text-danger small" asp-validation-for="Applicant.BirthDate"></span>
+                    </div>
+
+                    <!-- Пол -->
+                    <div class="col-12 col-md-4">
+                        <label class="form-label fw-semibold">Пол *</label>
+                        <select class="form-select" asp-for="Applicant.Gender">
+                            <option value="М">М</option>
+                            <option value="Ж">Ж</option>
+                        </select>
+                        <span class="text-danger small" asp-validation-for="Applicant.Gender"></span>
+                    </div>
+
+                    <!-- Телефон -->
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Телефон</label>
+                        <input class="form-control" asp-for="Applicant.Phone" placeholder="+7..." />
+                        <span class="text-danger small" asp-validation-for="Applicant.Phone"></span>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="col-12 col-md-6">
+                        <label class="form-label">Email</label>
+                        <input class="form-control" asp-for="Applicant.Email" placeholder="name@example.com" />
+                        <span class="text-danger small" asp-validation-for="Applicant.Email"></span>
+                    </div>
+                </div>
+
+                <hr class="my-4" />
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <a class="btn btn-outline-secondary" asp-page="Index">Отмена</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
