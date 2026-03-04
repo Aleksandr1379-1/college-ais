@@ -48,6 +48,9 @@ public class Applicant
     [MaxLength(400, ErrorMessage = "Поле «{0}» не должно превышать {1} символов.")]
     public string? Address { get; set; }
 
+    [Required]
+    public int AdmissionYear { get; set; } = DateTime.Now.Year;
+
     public ApplicantPassport? Passport { get; set; }
     public ApplicantAddress? AddressInfo { get; set; }
     public ApplicantEducationDocument? EducationDocument { get; set; }

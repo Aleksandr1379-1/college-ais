@@ -3,6 +3,7 @@ using CollegeAis.Data.Entities;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CollegeAis.Data.Enums;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace CollegeAis.Web.Pages.Applicants;
@@ -18,6 +19,11 @@ public class IndexModel : PageModel
     // ✅ Берём из query string ?q=...&status=...
     public string? Q { get; set; }
     public ApplicantStatus? Status { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public int? AdmissionYearFilter { get; set; }
+
+    public List<int> AdmissionYears { get; set; } = new();
 
     public async Task OnGetAsync(string? q, ApplicantStatus? status)
     {
@@ -43,5 +49,18 @@ public class IndexModel : PageModel
         Applicants = await query
             .OrderByDescending(a => a.CreatedAt)
             .ToListAsync();
+        
+        if (AdmissionYearFilter.HasValue)
+{
+    query = query.Where(a => a.AdmissionYear == AdmissionYearFilter.Value);
+}
+
+AdmissionYears = await _context.Applicants
+    .Select(a => a.AdmissionYear)
+    .Distinct()
+    .OrderByDescending(y => y)
+    .ToListAsync();
     }
+    
+    
 }

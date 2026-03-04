@@ -17,6 +17,18 @@
     <div class="card border-0 shadow-sm mb-3">
         <div class="card-body">
             <form method="get" class="row g-2 align-items-end">
+                <div class="col-md-2">
+    <label class="form-label">Год набора</label>
+    <select name="AdmissionYearFilter" class="form-select">
+        <option value="">Все</option>
+        @foreach (var year in Model.AdmissionYears)
+        {
+            <option value="@year" selected="@(Model.AdmissionYearFilter == year)">
+                @year
+            </option>
+        }
+    </select>
+</div>
                 <div class="col-12 col-md-6 col-lg-7">
                     <label class="form-label mb-1">Поиск</label>
                     <input name="q" value="@Model.Q" class="form-control"
