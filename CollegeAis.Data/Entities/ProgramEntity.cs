@@ -6,26 +6,32 @@ public class ProgramEntity
 {
     public Guid Id { get; set; } = Guid.NewGuid();
 
-    [Required, MaxLength(20)]
-    public string Code { get; set; } = ""; // 09.02.07
+    [Required(ErrorMessage = "Укажи код")]
+    [MaxLength(20)]
+    public string Code { get; set; } = string.Empty;
 
-    [Required, MaxLength(300)]
-    public string Name { get; set; } = ""; // Название специальности
+    [Required(ErrorMessage = "Укажи название")]
+    [MaxLength(250)]
+    public string Name { get; set; } = string.Empty;
 
-    // Базовое образование (9/11) — у тебя это сейчас "Уровень"
-    [Required, MaxLength(20)]
-    public string BaseEducation { get; set; } = "9 классов";
+    // ✅ Вернули поля
+    [Display(Name = "Квалификация")]
+    [MaxLength(200)]
+    public string? Qualification { get; set; }
 
-    // ✅ Новые поля
-    [Required, MaxLength(200)]
-    public string Qualification { get; set; } = ""; // квалификация
+    [Display(Name = "Базовое образование")]
+    [MaxLength(200)]
+    public string? BaseEducation { get; set; }
 
-    [Required, MaxLength(50)]
-    public string StudyDuration { get; set; } = ""; // срок обучения (например "3 г. 10 мес.")
+    [Display(Name = "Срок обучения")]
+    [MaxLength(50)]
+    public string? StudyDuration { get; set; }
 
-    public int BudgetPlaces { get; set; } // бюджетных мест
+    [Display(Name = "Количество бюджетных мест")]
+    [Range(0, 9999, ErrorMessage = "Введите число от 0 до 9999")]
+    public int BudgetSeats { get; set; }
 
-    public int PaidPlaces { get; set; } // коммерческих мест (если нужно)
-
-    public bool IsActive { get; set; } = true;
+    [Display(Name = "Количество платных мест")]
+    [Range(0, 9999, ErrorMessage = "Введите число от 0 до 9999")]
+    public int PaidSeats { get; set; }
 }

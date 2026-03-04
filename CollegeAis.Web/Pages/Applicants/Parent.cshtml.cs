@@ -3,11 +3,15 @@ using CollegeAis.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CollegeAis.Web.Pages.Applicants;
 
 public class ParentModel : PageModel
 {
+
+    public List<SelectListItem> CitizenshipOptions { get; private set; } = new();
+    
     private readonly CollegeDbContext _context;
 
     public ParentModel(CollegeDbContext context) => _context = context;

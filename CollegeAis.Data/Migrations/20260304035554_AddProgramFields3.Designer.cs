@@ -3,6 +3,7 @@ using System;
 using CollegeAis.Data.Db;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CollegeAis.Data.Migrations
 {
     [DbContext(typeof(CollegeDbContext))]
-    partial class CollegeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260304035554_AddProgramFields3")]
+    partial class AddProgramFields3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

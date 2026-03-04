@@ -20,20 +20,22 @@ public class ViewModel : PageModel
     public ApplicantAddress? Address { get; private set; }
     public ApplicantEducationDocument? Education { get; private set; }
     public ApplicantParentContact? Parent { get; private set; }
+    public List<ApplicantApplication> Applications { get; private set; } = new();
 
     public async Task<IActionResult> OnGetAsync(Guid id)
     {
-
         Applications = await _context.ApplicantApplications
-    .Where(x => x.ApplicantId == id)
-    .Include(x => x.Program)
-    .OrderBy(x => x.Priority)
-    .ToListAsync();
-    
-        Applicant = await _context.Applicants
-            .FirstOrDefaultAsync(a => a.Id == id) ?? throw new Exception();
+            .Where(x => x.ApplicantId == id)
+            .Include(x => x.Program)
+            .OrderBy(x => x.Priority)
+            .ToListAsync();
+
+        var applicant = await _context.Applicants.FirstOrDefaultAsync(a => a.Id == id);
+        if (applicant is null) return NotFound();
+        Applicant = applicant;
 
         Passport = await _context.ApplicantPassports
+            .Include(p => p.CitizenshipCountry)
             .FirstOrDefaultAsync(x => x.ApplicantId == id);
 
         Address = await _context.ApplicantAddresses
@@ -47,5 +49,4 @@ public class ViewModel : PageModel
 
         return Page();
     }
-    public List<ApplicantApplication> Applications { get; private set; } = new();
 }

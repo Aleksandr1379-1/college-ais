@@ -26,19 +26,37 @@
                 <div class="row g-3">
                     <div class="col-12 col-md-3">
                         <label class="form-label">Серия</label>
-                        <input class="form-control" asp-for="Passport.Series" />
+                        <input class="form-control"
+                               asp-for="Passport.Series"
+                               inputmode="numeric"
+                               autocomplete="off"
+                               maxlength="4"
+                               pattern="\d{4}"
+                               placeholder="0000" />
                         <span class="text-danger small" asp-validation-for="Passport.Series"></span>
                     </div>
 
                     <div class="col-12 col-md-3">
                         <label class="form-label">Номер</label>
-                        <input class="form-control" asp-for="Passport.Number" />
+                        <input class="form-control"
+                               asp-for="Passport.Number"
+                               inputmode="numeric"
+                               autocomplete="off"
+                               maxlength="6"
+                               pattern="\d{6}"
+                               placeholder="000000" />
                         <span class="text-danger small" asp-validation-for="Passport.Number"></span>
                     </div>
 
                     <div class="col-12 col-md-6">
                         <label class="form-label">Код подразделения</label>
-                        <input class="form-control" asp-for="Passport.DivisionCode" />
+                        <input class="form-control"
+                               asp-for="Passport.DivisionCode"
+                               inputmode="numeric"
+                               autocomplete="off"
+                               maxlength="7"
+                               pattern="\d{3}-\d{3}"
+                               placeholder="000-000" />
                         <span class="text-danger small" asp-validation-for="Passport.DivisionCode"></span>
                     </div>
 
@@ -56,8 +74,18 @@
 
                     <div class="col-12 col-md-4">
                         <label class="form-label">Гражданство</label>
-                        <input class="form-control" asp-for="Passport.Citizenship" />
-                        <span class="text-danger small" asp-validation-for="Passport.Citizenship"></span>
+                        <select class="form-select"
+                                asp-for="Passport.CitizenshipCountryId"
+                                asp-items="Model.CitizenshipOptions">
+                        </select>
+                        <span class="text-danger small" asp-validation-for="Passport.CitizenshipCountryId"></span>
+                    </div>
+
+                    <!-- СНИЛС -->
+                    <div class="col-12 col-md-4">
+                        <label class="form-label">СНИЛС</label>
+                        <input class="form-control" asp-for="Applicant.Snils" placeholder="например: 123-456-789 00" />
+                        <span class="text-danger small" asp-validation-for="Applicant.Snils"></span>
                     </div>
 
                     <div class="col-12 col-md-4">
@@ -83,6 +111,63 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    function attachDigitsOnly(selector, maxLen) {
+        const input = document.querySelector(selector);
+        if (!input) return;
+
+        function normalize() {
+            input.value = (input.value || "")
+                .replace(/\D/g, "")
+                .slice(0, maxLen);
+        }
+
+        input.addEventListener("input", normalize);
+        input.addEventListener("paste", () => setTimeout(normalize, 0));
+    }
+
+    // Серия: 4 цифры
+    attachDigitsOnly('input[name="Passport.Series"]', 4);
+
+    // Номер: 6 цифр
+    attachDigitsOnly('input[name="Passport.Number"]', 6);
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const input = document.querySelector('input[name="Passport.DivisionCode"]');
+    if (!input) return;
+
+    const format = (value) => {
+        const digits = (value || "").replace(/\D/g, "").slice(0, 6);
+        return digits.length <= 3
+            ? digits
+            : digits.slice(0, 3) + "-" + digits.slice(3);
+    };
+
+    input.addEventListener("input", () => {
+        const pos = input.selectionStart ?? input.value.length;
+
+        const before = input.value;
+        const beforeDigitsCount = before.slice(0, pos).replace(/\D/g, "").length;
+
+        input.value = format(before);
+
+        let newPos = beforeDigitsCount;
+        if (beforeDigitsCount > 3) newPos += 1;
+
+        input.setSelectionRange(newPos, newPos);
+    });
+
+    input.addEventListener("paste", (e) => {
+        e.preventDefault();
+        const text = (e.clipboardData || window.clipboardData).getData("text");
+        input.value = format(text);
+    });
+});
+</script>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

@@ -2,6 +2,7 @@ using CollegeAis.Data.Db;
 using CollegeAis.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace CollegeAis.Web.Pages.Applicants;
@@ -23,6 +24,23 @@ public class PassportModel : PageModel
     [BindProperty]
     public ApplicantPassport Passport { get; set; } = new();
 
+    public List<SelectListItem> CitizenshipOptions { get; private set; } = new();
+
+    private async Task BuildCitizenshipOptionsAsync()
+    {
+        CitizenshipOptions = await _context.Countries
+            .AsNoTracking()
+            .OrderBy(x => x.Name)
+            .Select(x => new SelectListItem
+            {
+                Value = x.Id.ToString(),
+                Text = x.Name
+            })
+            .ToListAsync();
+
+        CitizenshipOptions.Insert(0, new SelectListItem("— выбери —", ""));
+    }
+
     public async Task<IActionResult> OnGetAsync(Guid id)
     {
         ApplicantId = id;
@@ -34,6 +52,7 @@ public class PassportModel : PageModel
         var passport = await _context.ApplicantPassports.FirstOrDefaultAsync(p => p.ApplicantId == id);
         Passport = passport ?? new ApplicantPassport { ApplicantId = id };
 
+        await BuildCitizenshipOptionsAsync();
         return Page();
     }
 
@@ -43,11 +62,15 @@ public class PassportModel : PageModel
         if (applicant is null) return NotFound();
         Applicant = applicant;
 
-        // ✅ Не валидируем навигацию EF (она не приходит из формы)
+        // ✅ Навигации EF не приходят из формы — убираем из проверки
         ModelState.Remove("Passport.Applicant");
+        ModelState.Remove("Passport.CitizenshipCountry");
 
         if (!ModelState.IsValid)
+        {
+            await BuildCitizenshipOptionsAsync();
             return Page();
+        }
 
         var existing = await _context.ApplicantPassports.FirstOrDefaultAsync(p => p.ApplicantId == ApplicantId);
 
@@ -64,7 +87,10 @@ public class PassportModel : PageModel
             existing.IssueDate = Passport.IssueDate;
             existing.DivisionCode = Passport.DivisionCode;
             existing.PlaceOfBirth = Passport.PlaceOfBirth;
-            existing.Citizenship = Passport.Citizenship;
+
+            // ✅ сохраняем FK страны
+            existing.CitizenshipCountryId = Passport.CitizenshipCountryId;
+
             existing.Inn = Passport.Inn;
         }
 

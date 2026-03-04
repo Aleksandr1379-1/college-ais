@@ -3,6 +3,7 @@ using System;
 using CollegeAis.Data.Db;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CollegeAis.Data.Migrations
 {
     [DbContext(typeof(CollegeDbContext))]
-    partial class CollegeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260304023533_AddCountriesAndCitizenshipFk")]
+    partial class AddCountriesAndCitizenshipFk
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -227,6 +230,7 @@ namespace CollegeAis.Data.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<int?>("CitizenshipCountryId")
+                        .HasMaxLength(100)
                         .HasColumnType("integer");
 
                     b.Property<string>("DivisionCode")
@@ -282,48 +286,6 @@ namespace CollegeAis.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Countries");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Российская Федерация"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Республика Казахстан"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Республика Беларусь"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Узбекистан"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Таджикистан"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "Киргизия"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Name = "Армения"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Name = "Азербайджан"
-                        });
                 });
 
             modelBuilder.Entity("CollegeAis.Data.Entities.ProgramEntity", b =>
@@ -333,10 +295,11 @@ namespace CollegeAis.Data.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("BaseEducation")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
-                    b.Property<int>("BudgetSeats")
+                    b.Property<int>("BudgetPlaces")
                         .HasColumnType("integer");
 
                     b.Property<string>("Code")
@@ -344,19 +307,24 @@ namespace CollegeAis.Data.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("character varying(250)");
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
 
-                    b.Property<int>("PaidSeats")
+                    b.Property<int>("PaidPlaces")
                         .HasColumnType("integer");
 
                     b.Property<string>("Qualification")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
                     b.Property<string>("StudyDuration")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 

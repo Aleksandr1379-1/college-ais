@@ -1,0 +1,57 @@
+@page
+@model CollegeAis.Web.Pages.Applicants.Countries.IndexModel
+
+<div class="py-4">
+    <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
+        <div>
+            <h1 class="h4 fw-bold mb-1">Справочник гражданства</h1>
+            <div class="text-muted">Список стран для выбора в паспорте</div>
+        </div>
+
+        <div class="d-flex gap-2">
+            <a class="btn btn-primary" asp-page="Create">+ Добавить</a>
+            <a class="btn btn-outline-secondary" asp-page="/Index">← На главную</a>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            @if (Model.Countries.Count == 0)
+            {
+                <div class="text-muted">Пока нет ни одной страны</div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-sm align-middle mb-0">
+                        <thead class="table-light">
+                        <tr>
+                            <th>Название</th>
+                            <th style="width:140px;">Используется</th>
+                            <th style="width:220px;"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var c in Model.Countries)
+                        {
+                            <tr>
+                                <td class="fw-semibold">@c.Name</td>
+                                <td>@c.UsedCount</td>
+                                <td class="text-end">
+                                    <a class="btn btn-sm btn-outline-primary"
+                                       asp-page="Edit"
+                                       asp-route-id="@c.Id">Редактировать</a>
+
+                                    <a class="btn btn-sm btn-outline-danger"
+                                       asp-page="Delete"
+                                       asp-route-id="@c.Id">Удалить</a>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>

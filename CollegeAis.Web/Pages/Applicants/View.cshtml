@@ -21,54 +21,55 @@
     </div>
 
     <div class="row g-4">
-<!-- Специальности -->
-<div class="col-12">
-    <div class="card shadow-sm border-0">
-        <div class="card-body">
-            <h5 class="fw-semibold mb-3">Специальности (приоритеты)</h5>
+        <!-- Специальности -->
+        <div class="col-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="fw-semibold mb-3">Специальности (приоритеты)</h5>
 
-            @if (Model.Applications is null || Model.Applications.Count == 0)
-            {
-                <div class="text-muted">Не заполнено</div>
-            }
-            else
-            {
-                <div class="table-responsive">
-                    <table class="table table-sm align-middle mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th style="width:120px;">Приоритет</th>
-                                <th>Специальность</th>
-                                <th style="width:180px;">Форма</th>
-                                <th style="width:180px;">Основа</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var a in Model.Applications)
-                            {
-                                <tr>
-                                    <td class="fw-semibold">@a.Priority</td>
-                                    <td>
-                                        @if (a.Program is null)
-                                        {
-                                            <span class="text-muted">—</span>
-                                        }
-                                        else
-                                        {
-                                            <span>@a.Program.Code — @a.Program.Name</span>
-                                        }
-                                    </td>
-                                    <td>@a.StudyForm</td>
-                                    <td>@a.FundingBasis</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                    @if (Model.Applications is null || Model.Applications.Count == 0)
+                    {
+                        <div class="text-muted">Не заполнено</div>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-sm align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th style="width:120px;">Приоритет</th>
+                                        <th>Специальность</th>
+                                        <th style="width:180px;">Форма</th>
+                                        <th style="width:180px;">Основа</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var a in Model.Applications)
+                                    {
+                                        <tr>
+                                            <td class="fw-semibold">@a.Priority</td>
+                                            <td>
+                                                @if (a.Program is null)
+                                                {
+                                                    <span class="text-muted">—</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>@a.Program.Code — @a.Program.Name</span>
+                                                }
+                                            </td>
+                                            <td>@a.StudyForm</td>
+                                            <td>@a.FundingBasis</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
                 </div>
-            }
+            </div>
         </div>
-    </div>
-</div>
+
         <!-- Основные данные -->
         <div class="col-12 col-lg-6">
             <div class="card shadow-sm border-0">
@@ -100,7 +101,7 @@
                         <p><strong>Кем выдан:</strong> @Model.Passport.IssuedBy</p>
                         <p><strong>Дата выдачи:</strong> @Model.Passport.IssueDate?.ToString("dd.MM.yyyy")</p>
                         <p><strong>Код подразделения:</strong> @Model.Passport.DivisionCode</p>
-                        <p><strong>Гражданство:</strong> @Model.Passport.Citizenship</p>
+                        <p><strong>Гражданство:</strong> @Model.Passport.CitizenshipCountry?.Name</p>
                         <p><strong>ИНН:</strong> @Model.Passport.Inn</p>
                         <p><strong>Место рождения:</strong> @Model.Passport.PlaceOfBirth</p>
                     }

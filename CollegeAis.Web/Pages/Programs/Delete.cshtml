@@ -1,0 +1,30 @@
+@page
+@model CollegeAis.Web.Pages.Programs.DeleteModel
+
+<div class="py-4">
+    <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
+        <div>
+            <h1 class="h4 fw-bold mb-1">Удалить специальность</h1>
+            <div class="text-muted">Будь аккуратен: удаление необратимо</div>
+        </div>
+        <a class="btn btn-outline-secondary" asp-page="Index">← Назад</a>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+            @if (!ViewContext.ModelState.IsValid)
+            {
+                <div asp-validation-summary="All" class="alert alert-danger mb-3"></div>
+            }
+
+            <p class="mb-2"><strong>Код:</strong> @Model.Code</p>
+            <p class="mb-2"><strong>Название:</strong> @Model.Name</p>
+            <p class="text-muted mb-4"><strong>Используется в заявлениях:</strong> @Model.UsedCount</p>
+
+            <form method="post">
+                <button class="btn btn-danger" type="submit">Удалить</button>
+                <a class="btn btn-outline-secondary" asp-page="Index">Отмена</a>
+            </form>
+        </div>
+    </div>
+</div>

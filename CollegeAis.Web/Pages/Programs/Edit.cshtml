@@ -1,11 +1,11 @@
 @page
-@model CollegeAis.Web.Pages.Programs.CreateModel
+@model CollegeAis.Web.Pages.Programs.EditModel
 
 <div class="py-4">
     <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
         <div>
-            <h1 class="h4 fw-bold mb-1">Добавить специальность</h1>
-            <div class="text-muted">Заполни параметры обучения</div>
+            <h1 class="h4 fw-bold mb-1">Редактировать специальность</h1>
+            <div class="text-muted">Изменения сразу применятся в заявлениях</div>
         </div>
         <a class="btn btn-outline-secondary" asp-page="Index">← Назад</a>
     </div>
@@ -16,13 +16,13 @@
                 <div class="row g-3">
                     <div class="col-12 col-md-3">
                         <label class="form-label">Код</label>
-                        <input class="form-control" asp-for="Input.Code" placeholder="09.02.07" />
+                        <input class="form-control" asp-for="Input.Code" />
                         <span class="text-danger small" asp-validation-for="Input.Code"></span>
                     </div>
 
                     <div class="col-12 col-md-9">
                         <label class="form-label">Название</label>
-                        <input class="form-control" asp-for="Input.Name" placeholder="Информационные системы и программирование" />
+                        <input class="form-control" asp-for="Input.Name" />
                         <span class="text-danger small" asp-validation-for="Input.Name"></span>
                     </div>
 

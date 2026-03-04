@@ -28,13 +28,33 @@
                         </div>
                     </div>
 
-                    <div class="d-flex flex-wrap gap-2">
-                        <a class="btn btn-primary" asp-page="/Applicants/Index">
-                            Абитуриенты
-                        </a>
-                        <a class="btn btn-outline-primary" asp-page="/Programs/Index">
-                            Специальности
-                        </a>
+                    <div class="d-flex gap-2 align-items-center flex-wrap">
+                        <!-- Абитуриенты -->
+                        <a class="btn btn-primary" asp-page="/Applicants/Index">Абитуриенты</a>
+
+                        <!-- Справочники (выпадающее меню) -->
+                        <div class="dropdown">
+                            <button class="btn btn-outline-primary dropdown-toggle"
+                                    type="button"
+                                    id="dictDropdown"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                Справочники
+                            </button>
+
+                            <ul class="dropdown-menu" aria-labelledby="dictDropdown">
+                                <li>
+                                    <a class="dropdown-item" asp-page="/Programs/Index">
+                                        Специальности
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-page="/Applicants/Countries/Index">
+                                        Гражданство
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
